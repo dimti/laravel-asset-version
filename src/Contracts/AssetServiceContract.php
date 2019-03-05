@@ -33,6 +33,20 @@ interface AssetServiceContract
     public function setVersion(string $version);
 
     /**
+     * Get assets version number.
+     *
+     * @return string
+     */
+    public function getVersioning() : bool;
+
+    /**
+     * Set assets version number.
+     *
+     * @param string $autoversioning
+     */
+    public function setVersioning(bool $autoversioning);
+
+    /**
      * Get secure option.
      * 
      * @return bool|null
