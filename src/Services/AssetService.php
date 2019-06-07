@@ -36,7 +36,7 @@ class AssetService implements AssetServiceContract
     /**
      * @inheritdoc
      */
-    public function __construct(string $version, $secure = null, bool $automatic_versioning = false)
+    public function __construct(?string $version, $secure = null, bool $automatic_versioning = false)
     {
         $this->version = $version;
         $this->secure = $secure;
