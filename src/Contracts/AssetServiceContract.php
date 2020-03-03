@@ -4,7 +4,7 @@ namespace Tooleks\LaravelAssetVersion\Contracts;
 
 /**
  * Interface AssetServiceContract.
- * 
+ *
  * @package Tooleks\LaravelAssetVersion\Contracts
  * @author Oleksandr Tolochko <tooleks@gmail.com>
  */
@@ -15,19 +15,21 @@ interface AssetServiceContract
      *
      * @param string $version
      * @param bool|null $secure
+     * @param bool $automatic_versioning
+     * @param array $paths
      */
-    public function __construct(string $version, $secure = null);
+    public function __construct(string $version, ?bool $secure = null, bool $automatic_versioning = false, array $paths = []);
 
     /**
      * Get assets version number.
-     * 
+     *
      * @return string
      */
     public function getVersion() : string;
 
     /**
      * Set assets version number.
-     * 
+     *
      * @param string $version
      */
     public function setVersion(string $version);
@@ -48,18 +50,18 @@ interface AssetServiceContract
 
     /**
      * Get secure option.
-     * 
+     *
      * @return bool|null
      */
     public function getSecure();
 
     /**
      * Set secure option.
-     * 
+     *
      * @param bool $secure
      */
     public function setSecure(bool $secure);
-    
+
     /**
      * Generate an asset path with version parameter for the application.
      *

@@ -2,6 +2,7 @@
 
 namespace Tooleks\LaravelAssetVersion\Services;
 
+use Illuminate\Support\Arr;
 use Tooleks\LaravelAssetVersion\Contracts\AssetServiceContract;
 
 /**
@@ -34,13 +35,21 @@ class AssetService implements AssetServiceContract
     protected $autoversioning;
 
     /**
+     * Asset paths option.
+     *
+     * @var bool|null
+     */
+    protected $paths = [];
+
+    /**
      * @inheritdoc
      */
-    public function __construct(?string $version, $secure = null, bool $automatic_versioning = false)
+    public function __construct(?string $version, ?bool $secure = null, bool $automatic_versioning = false, array $paths = [])
     {
         $this->version = $version;
         $this->secure = $secure;
         $this->autoversioning = $automatic_versioning;
+        $this->paths = $paths;
     }
 
     /**
@@ -144,17 +153,36 @@ class AssetService implements AssetServiceContract
 
         //Grab the real system path and get the modified time of the file
         //TODO: Generate a cache on live so that filemtime doesn't have to be ran each page load
-        $rel_path = public_path($path_url['path']);
+        $rel_path = $this->findRealPath($path_url['path']);
 
         /** @var $cache \Illuminate\Cache\MemcachedStore */
         //$cache = \Cache::store(config('assets.cachestore', 'memcached'));
         //$cache->setPrefix('assets');
 
-        if (is_readable($rel_path)) {
+        if ($rel_path) {
             return filemtime($rel_path);
         } elseif ($this->version) {
             return $this->version;
         }
         return '';
+    }
+
+    /**
+     * @param string $path
+     * @return null|string
+     */
+    public function findRealPath(string $path): ?string
+    {
+        $rel_path = public_path($path);
+        if (is_readable($rel_path)) {
+            return $rel_path;
+        }
+        foreach($this->paths as $_path) {
+            $check = app()->basePath() . '/' . $_path;
+            if (is_readable($check)) {
+                return $check;
+            }
+        }
+        return null;
     }
 }

@@ -46,4 +46,17 @@ return [
     */
 
     'auto' => false,
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Additional Paths
+    |--------------------------------------------------------------------------
+    |
+    | Additional paths to check, for example, in case your assets are not
+    | located in the public folder and are in an alias in Nginx
+    |
+    */
+
+    'paths' => false,
 ];
