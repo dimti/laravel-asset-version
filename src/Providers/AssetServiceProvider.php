@@ -14,7 +14,7 @@ use Tooleks\LaravelAssetVersion\Services\AssetService;
  */
 class AssetServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         $this->publishes([
             __DIR__ . '/../../config/assets.php' => config_path('assets.php')
@@ -23,12 +23,5 @@ class AssetServiceProvider extends ServiceProvider
         $this->app->singleton(AssetServiceContract::class, function () {
             return new AssetService(config('assets.version'), config('assets.secure'), config('assets.auto', false), config('assets.paths', []));
         });
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function register()
-    {
     }
 }
